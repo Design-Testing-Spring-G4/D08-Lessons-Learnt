@@ -4,7 +4,7 @@ package domain;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,6 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
 public class Rendezvous extends DomainEntity {
 
 	//Attributes
@@ -28,17 +29,17 @@ public class Rendezvous extends DomainEntity {
 	private String						picture;
 	private String						coordinates;
 	private boolean						finalMode;
-	private boolean						delete;
+	private boolean						deleted;
 	private boolean						adultOnly;
 
 	//Relationships
 
-	private Collection<Question>		questions;
 	private User						creator;
 	private Collection<User>			attendants;
 	private Collection<Rendezvous>		links;
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
+	private Collection<Question>		questions;
 
 
 	//Getters
@@ -53,17 +54,19 @@ public class Rendezvous extends DomainEntity {
 		return this.description;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getMoment() {
 		return this.moment;
 	}
 
+	@NotNull
 	@URL
 	public String getPicture() {
 		return this.picture;
 	}
 
+	@NotNull
 	@Pattern(regexp = "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$")
 	public String getCoordinates() {
 		return this.coordinates;
@@ -73,8 +76,8 @@ public class Rendezvous extends DomainEntity {
 		return this.finalMode;
 	}
 
-	public boolean getDelete() {
-		return this.delete;
+	public boolean getDeleted() {
+		return this.deleted;
 	}
 
 	public boolean getAdultOnly() {
@@ -83,7 +86,7 @@ public class Rendezvous extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ElementCollection
+	@OneToMany
 	public Collection<Question> getQuestions() {
 		return this.questions;
 	}
@@ -149,8 +152,8 @@ public class Rendezvous extends DomainEntity {
 		this.finalMode = finalMode;
 	}
 
-	public void setDelete(final boolean delete) {
-		this.delete = delete;
+	public void setDeleted(final boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public void setAdultOnly(final boolean adultOnly) {

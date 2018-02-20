@@ -22,10 +22,6 @@ public class User extends Actor {
 
 	//Getters
 
-	public void setComments(final Collection<Comment> comments) {
-		this.comments = comments;
-	}
-
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "creator")
@@ -66,5 +62,9 @@ public class User extends Actor {
 
 	public void setAnnouncements(final Collection<Announcement> announcements) {
 		this.announcements = announcements;
+	}
+
+	public void setComments(final Collection<Comment> comments) {
+		this.comments = comments;
 	}
 }
