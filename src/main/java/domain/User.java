@@ -18,6 +18,7 @@ public class User extends Actor {
 	private Collection<Rendezvous>		attendance;
 	private Collection<Announcement>	announcements;
 	private Collection<Comment>			comments;
+	private Collection<Answer>			answers;
 
 
 	//Getters
@@ -50,6 +51,13 @@ public class User extends Actor {
 		return this.comments;
 	}
 
+	@Valid
+	@NotNull
+	@OneToMany
+	public Collection<Answer> getAnswers() {
+		return this.answers;
+	}
+
 	//Setters
 
 	public void setRendezvous(final Collection<Rendezvous> rendezvous) {
@@ -66,5 +74,9 @@ public class User extends Actor {
 
 	public void setComments(final Collection<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public void setAnswers(final Collection<Answer> answers) {
+		this.answers = answers;
 	}
 }

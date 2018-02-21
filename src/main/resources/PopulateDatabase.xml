@@ -119,6 +119,15 @@
 				<ref bean="comment1" />
 			</list>
 		</property>
+		<property name="answers">
+			<list>
+				<ref bean="answer1" />
+				<ref bean="answer3" />
+				<ref bean="answer5" />
+				<ref bean="answer7" />
+				<ref bean="answer9" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="user2" class="domain.User">
@@ -146,6 +155,12 @@
 			<list>
 				<ref bean="comment2" />
 				<ref bean="comment3" />
+			</list>
+		</property>
+		<property name="answers">
+			<list>
+				<ref bean="answer2" />
+				<ref bean="answer4" />
 			</list>
 		</property>
 	</bean>
@@ -176,6 +191,13 @@
 		<property name="comments">
 			<list>
 				<ref bean="comment4" />
+			</list>
+		</property>
+		<property name="answers">
+			<list>
+				<ref bean="answer6" />
+				<ref bean="answer8" />
+				<ref bean="answer10" />
 			</list>
 		</property>
 	</bean>
@@ -249,27 +271,74 @@
 	
 	<bean id="question1" class="domain.Question">
 		<property name="question" value="What would you like to do during the rendezvous?" />
-		<property name="answer" value="" />
 	</bean>
 	
 	<bean id="question2" class="domain.Question">
 		<property name="question" value="If you could bring people, how many would you bring?" />
-		<property name="answer" value="" />
 	</bean>
 	
 	<bean id="question3" class="domain.Question">
 		<property name="question" value="Is the idea interesting enough?" />
-		<property name="answer" value="" />
 	</bean>
 	
 	<bean id="question4" class="domain.Question">
 		<property name="question" value="Test question, write anything." />
-		<property name="answer" value="" />
 	</bean>
 	
 	<bean id="question5" class="domain.Question">
 		<property name="question" value="Alternative locations?" />
-		<property name="answer" value="" />
+	</bean>
+	
+	<!-- Answer beans -->
+	
+	<bean id="answer1" class="domain.Answer">
+		<property name="answer" value="Something fun." />
+		<property name="question" ref="question1" />
+	</bean>
+	
+	<bean id="answer2" class="domain.Answer">
+		<property name="answer" value="Anything at all." />
+		<property name="question" ref="question1" />
+	</bean>
+	
+	<bean id="answer3" class="domain.Answer">
+		<property name="answer" value="I wouldn't bring anybody." />
+		<property name="question" ref="question2" />
+	</bean>
+	
+	<bean id="answer4" class="domain.Answer">
+		<property name="answer" value="At least three!" />
+		<property name="question" ref="question2" />
+	</bean>
+	
+	<bean id="answer5" class="domain.Answer">
+		<property name="answer" value="Yes1" />
+		<property name="question" ref="question3" />
+	</bean>
+	
+	<bean id="answer6" class="domain.Answer">
+		<property name="answer" value="It could be." />
+		<property name="question" ref="question3" />
+	</bean>
+	
+	<bean id="answer7" class="domain.Answer">
+		<property name="answer" value="testing" />
+		<property name="question" ref="question4" />
+	</bean>
+	
+	<bean id="answer8" class="domain.Answer">
+		<property name="answer" value="This is a test answer." />
+		<property name="question" ref="question4" />
+	</bean>
+	
+	<bean id="answer9" class="domain.Answer">
+		<property name="answer" value="Paris!" />
+		<property name="question" ref="question5" />
+	</bean>
+	
+	<bean id="answer10" class="domain.Answer">
+		<property name="answer" value="Somewhere in the north of Africa." />
+		<property name="question" ref="question5" />
 	</bean>
 	
 	<!-- Rendezvous beans -->
@@ -293,6 +362,8 @@
 		</property>
 		<property name="links">
 			<list>
+				<ref bean="rendezvous2" />
+				<ref bean="rendezvous3" />
 			</list>
 		</property>
 		<property name="announcements">
