@@ -81,6 +81,29 @@
 		</property>
 	</bean>
 	
+	<bean id="userAccount6" class="security.UserAccount">
+		<property name="username" value="user4" />
+		<property name="password" value="adafaf6215a1d8adva" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount7" class="security.UserAccount">
+		<property name="username" value="user5" />
+		<property name="password" value="adgvaadfv" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="USER" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 	<!-- Admin beans -->	
 	
 	<bean id="admin" class="domain.Administrator">
@@ -144,7 +167,10 @@
 			</list>
 		</property>
 		<property name="attendance">
-			<list></list>
+			<list>
+				<ref bean="rendezvous1" />
+				<ref bean="rendezvous2" />
+			</list>
 		</property>
 		<property name="announcements">
 			<list>
@@ -180,6 +206,7 @@
 		<property name="attendance">
 			<list>
 				<ref bean="rendezvous1" />
+				<ref bean="rendezvous3" />
 			</list>
 		</property>
 		<property name="announcements">
@@ -202,6 +229,64 @@
 		</property>
 	</bean>
 	
+	
+	<bean id="user4" class="domain.User">
+		<property name="name" value="Sergio" />
+		<property name="surname" value="Morales Moreno" />
+		<property name="phone" value="564498491" />
+		<property name="address" value="R. Nocturne 1, Toulouse" />
+		<property name="email" value="smm183@mail.com" />
+		<property name="userAccount" ref="userAccount6" />
+		<property name="rendezvous">
+			<list>
+			</list>
+		</property>
+		<property name="attendance">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="user5" class="domain.User">
+		<property name="name" value="adfa" />
+		<property name="surname" value="adsfaf Moreno" />
+		<property name="phone" value="2523455" />
+		<property name="address" value="R. Nocturne 1, Toulouse" />
+		<property name="email" value="serferg183@mail.com" />
+		<property name="userAccount" ref="userAccount7" />
+		<property name="rendezvous">
+			<list>
+			</list>
+		</property>
+		<property name="attendance">
+			<list>
+			</list>
+		</property>
+		<property name="announcements">
+			<list>
+			</list>
+		</property>
+		<property name="comments">
+			<list>
+			</list>
+		</property>
+		<property name="answers">
+			<list>
+			</list>
+		</property>
+	</bean>
 	<!-- Announcement beans -->
 	
 	<bean id="announcement1" class="domain.Announcement">
