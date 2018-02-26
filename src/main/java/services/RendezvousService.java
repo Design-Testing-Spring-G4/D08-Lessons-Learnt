@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,5 +87,20 @@ public class RendezvousService {
 			if (x.getLinks().contains(r))
 				x.getLinks().remove(r);
 		this.rendezvousRepository.delete(r);
+	}
+
+	public Rendezvous cancel(final Rendezvous r) {
+		Assert.notNull(r);
+
+		//Business rule: a trip can only be cancelled when it has been published and it hasn't started.
+		final Date now = new Date(System.currentTimeMillis());
+		Assert.isTrue(r.getFinalMode() == false && r.getMoment().after(now));
+
+		//Assertion that the user cancelling this trip has the correct privilege.
+		Assert.isTrue(this.actorService.findByPrincipal().getId() == r.getCreator().getId());
+
+		final Rendezvous saved = this.rendezvousRepository.save(r);
+
+		return saved;
 	}
 }

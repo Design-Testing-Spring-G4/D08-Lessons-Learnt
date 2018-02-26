@@ -30,18 +30,21 @@ public class UserServiceTest extends AbstractTest {
 	@Test
 	public void testCreateUser() {
 		//Using create() to initialise a new entity.
-		final User user = this.userService.create();
+		final User u = this.userService.create();
 
-		user.setName("testName");
-		user.setSurname("testSurname");
-		user.setPhone("999888777");
-		user.setAddress("c/test, 1");
-		user.setEmail("test@mail.com");
-		user.getUserAccount().setUsername("Fren");
-		user.getUserAccount().setPassword("12345678");
+		u.setName("Sergio");
+		u.setSurname("Morales");
+		u.setPhone("649514875");
+		u.setAddress("c/test, 1");
+		u.setEmail("testddd@mail.com");
+		u.getUserAccount().setUsername("Probador");
+		u.getUserAccount().setPassword("asdfa54548");
 
-		final User saved = this.userService.save(user);
-		final User bbdd = this.userService.findOne(saved.getId());
+		System.out.println(u.getName() + u.getSurname() + u.getPhone() + u.getAddress() + u.getEmail() + u.getUserAccount() + u.getRendezvous() + u.getAttendance() + u.getAnnouncements() + u.getComments() + u.getAnswers());
+		final User a = this.userService.save(u);
+
+		System.out.println("guardado" + a.getName() + a.getSurname() + a.getPhone() + a.getAddress() + a.getEmail() + a.getUserAccount() + a.getRendezvous() + a.getAttendance() + a.getAnnouncements() + a.getComments() + a.getAnswers());
+		final User bbdd = this.userService.findOne(a.getId());
 		Assert.notNull(bbdd);
 	}
 
