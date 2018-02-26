@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class UserService {
 	//Supporting services --------------------------------
 
 	@Autowired
-	private ActorService			actorService;
+	private ActorService	actorService;
 
 
 	//Simple CRUD Methods --------------------------------
@@ -40,16 +41,16 @@ public class UserService {
 		a.setAuthority(Authority.USER);
 		final UserAccount account = new UserAccount();
 		account.setAuthorities(Arrays.asList(a));
-		
-		final User u= new User();
-		
+
+		final User u = new User();
+
 		u.setUserAccount(account);
 		u.setRendezvous(new ArrayList<Rendezvous>());
 		u.setAttendance(new ArrayList<Rendezvous>());
 		u.setAnnouncements(new ArrayList<Announcement>());
 		u.setComments(new ArrayList<Comment>());
 		u.setAnswers(new ArrayList<Answer>());
-		
+
 		return u;
 	}
 
@@ -64,14 +65,15 @@ public class UserService {
 	}
 
 	public User save(final User user) {
+		//System.out.println("service" + u.getName() + u.getSurname() + u.getPhone() + u.getAddress() + u.getEmail() + u.getUserAccount() + u.getRendezvous() + u.getAttendance() + u.getAnnouncements() + u.getComments() + u.getAnswers());
 		Assert.notNull(user);
 
 		//Assertion that the user modifying this administrator has the correct privilege.
 		Assert.isTrue(this.actorService.findByPrincipal().getId() == user.getId());
 
-		final User saved = this.userRepository.save(user);
-
-		return saved;
+		final User u = this.userRepository.save(user);
+		System.out.println("service" + u.getName() + u.getSurname() + u.getPhone() + u.getAddress() + u.getEmail() + u.getUserAccount() + u.getRendezvous() + u.getAttendance() + u.getAnnouncements() + u.getComments() + u.getAnswers());
+		return u;
 	}
 
 	public void delete(final User user) {

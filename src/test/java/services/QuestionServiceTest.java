@@ -28,24 +28,24 @@ public class QuestionServiceTest extends AbstractTest {
 
 
 	//Setting up the authority to execute services.
-	@Test
-	public void testCreateQuestion() {
-		//Setting up the authority to execute services.
-		this.authenticate("user1");
 
-		//Using create() to initialise a new entity. Necessary Id's taken from populated database.
-		final Question question = this.questionService.create();
-
-		question.setQuestion("Estara bien esto?");
-		System.out.println(question);
-
-		//Saving entity to database and confirming it exists with findAll().
-		final Question saved = this.questionService.save(question);
-		System.out.println(saved);
-
-		final Collection<Question> questions = this.questionService.findAll();
-		Assert.isTrue(questions.contains(saved));
-	}
+	//	@Test
+	//	public void testCreateQuestion() {
+	//		//Setting up the authority to execute services.
+	//		this.authenticate("user1");
+	//
+	//		//Using create() to initialise a new entity. Necessary Id's taken from populated database.
+	//		final Question question = this.questionService.create();
+	//
+	//		question.setQuestion("Estara bien esto?");
+	//		System.out.println(question);
+	//
+	//		//Saving entity to database and confirming it exists with findAll().
+	//		final Question saved = this.questionService.save(question);
+	//		System.out.println("question saved: " + saved + saved.getQuestion());
+	//		final Collection<Question> questions = this.questionService.findAll();
+	//		Assert.isTrue(questions.contains(saved));
+	//	}
 
 	@Test
 	public void testListDeleteQuestion() {
@@ -55,7 +55,7 @@ public class QuestionServiceTest extends AbstractTest {
 		//We retrieve a list of all notes, and obtain the Id of one of them.
 		Collection<Question> questions = this.questionService.findAll();
 		final int id = questions.iterator().next().getId();
-
+		System.out.println("List question: " + questions);
 		//Using findOne() to retrieve a particular entity and verifying it.
 		final Question question = this.questionService.findOne(id);
 		Assert.notNull(id);
@@ -70,4 +70,5 @@ public class QuestionServiceTest extends AbstractTest {
 		System.out.println("Lista de questions:: " + questions);
 		//Assert.isTrue(!questions.contains(question));
 	}
+
 }

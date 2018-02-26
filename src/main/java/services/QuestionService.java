@@ -38,6 +38,8 @@ public class QuestionService {
 	public Question save(final Question q) {
 		Assert.notNull(q);
 		final Question saved = this.questionRepository.save(q);
+		System.out.println("Question for save: " + q);
+		System.out.println("List questions: " + this.questionRepository.findAll());
 		return saved;
 	}
 	public void delete(final Question q) {

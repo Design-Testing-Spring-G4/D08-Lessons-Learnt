@@ -28,8 +28,19 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select avg(r.announcements.size), stddev(r.announcements.size) from Rendezvous r")
 	Double[] avgStddevAnnouncementsPerRendezvous();
 
-	//The listing of trips that have got at least 10% more applications than the average, ordered by number of applications.
 	//The rendezvouses that whose number of announcements is above 75% the average number of announcements per rendezvous.
 	@Query("select r from Rendezvous r where r.announcements.size > (select avg(r.announcements.size)*1.75 from Rendezvous r)")
 	Collection<Rendezvous> announcementsWithAboveAverageRendezvous();
+
+	// The rendezvouses that are linked to a number of rendezvouses that is greater than the average plus 10%.
+	@Query("select r from Rendezvous r where r.links.size >= (select avg(r.links.size)*1.1 from Rendezvous r)")
+	Collection<Rendezvous> announcementsWithLinksAboveAverageRendezvous();
+
+	//The average and the standard deviation of the number of questions per rendezvous.
+	@Query("select avg(r.questions.size), stddev(r.questions.size) from Rendezvous r")
+	Double[] avgStddevQuestionsPerRendezvous();
+
+	//The average and the standard deviation of the number of answers to the questions per rendezvous.
+	@Query("select q from Rendezvous r join r.questions join q.answers")
+	Double[] avgStddevAnswersPerQuestiosnPerRendezvous();
 }
