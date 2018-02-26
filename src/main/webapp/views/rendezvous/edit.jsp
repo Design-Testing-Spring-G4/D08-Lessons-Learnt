@@ -46,6 +46,10 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="creator" />
+	<form:hidden path="announcements" />
+	<form:hidden path="attendants" />
+	<form:hidden path="comments" />
+	<form:hidden path="questions" />
 	<form:hidden path="deleted" />
 	
 	
@@ -106,39 +110,11 @@
 			</form:select>
 	<br/><br/>
 	
-	<form:label path="attendants">
-		<jstl:out value="${attendants}" />:
-	</form:label>
-			<form:input path="attendants" />
-			<form:errors cssClass="error" path="attendants" />
-	<br />
-	
 	<form:select path="links">
 				<form:option label="----" value="0" />
 				<form:options items="${rendezvouses}" itemLabel="name"/>
 			</form:select>
 			<form:errors cssClass="error" path="links" />
-	<br />
-	
-	<form:label path="announcements">
-		<jstl:out value="${announcements}" />:
-	</form:label>
-			<form:input path="announcements" />
-			<form:errors cssClass="error" path="announcements" />
-	<br />
-	
-	<form:label path="comments">
-		<jstl:out value="${comments}" />:
-	</form:label>
-			<form:input path="comments" />
-			<form:errors cssClass="error" path="comments" />
-	<br />
-	
-	<form:label path="questions">
-		<jstl:out value="${questions}" />:
-	</form:label>
-			<form:input path="questions" />
-			<form:errors cssClass="error" path="questions" />
 	<br />
 	
 	

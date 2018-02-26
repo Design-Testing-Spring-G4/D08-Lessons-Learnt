@@ -31,6 +31,9 @@ public class RendezvousService {
 	private ActorService			actorService;
 
 	@Autowired
+	private UserService				userService;
+
+	@Autowired
 	private AnnouncementRepository	announcementRepository;
 
 	@Autowired
@@ -102,5 +105,43 @@ public class RendezvousService {
 		final Rendezvous saved = this.rendezvousRepository.save(r);
 
 		return saved;
+
 	}
+
+	public void addRendezvous(final Rendezvous r) {
+		Assert.notNull(r);
+		User user;
+
+		user = ((User) this.actorService.findByPrincipal());
+		user.getAttendance().add(r);
+		this.userService.save(user);
+	}
+
+	public Collection<Question> questionsByUser(final User user) {
+		final Collection<Question> questions = new ArrayList<>();
+		for (final Rendezvous r : user.getRendezvous())
+			questions.addAll(r.getQuestions());
+		return questions;
+	}
+
+	public Double[] avgStddevUserPerRendezvous() {
+		return this.rendezvousRepository.avgStddevUserPerRendezvous();
+	}
+
+	public Double[] ratioRendezvousVsNotRendezvous() {
+		return this.rendezvousRepository.ratioRendezvousVsNotRendezvous();
+	}
+
+	public Collection<Rendezvous> topTenRendezvous() {
+		return this.rendezvousRepository.topTenRendezvous();
+	}
+
+	public Double[] avgStddevAnnouncementsPerRendezvous() {
+		return this.rendezvousRepository.avgStddevAnnouncementsPerRendezvous();
+	}
+
+	public Collection<Rendezvous> announcementsWithAboveAverageRendezvous() {
+		return this.rendezvousRepository.announcementsWithAboveAverageRendezvous();
+	}
+
 }

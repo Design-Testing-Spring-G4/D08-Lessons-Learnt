@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import repositories.RendezvousRepository;
 import repositories.UserRepository;
 import security.Authority;
 import security.UserAccount;
@@ -26,12 +27,15 @@ public class UserService {
 	//Managed repository ---------------------------------
 
 	@Autowired
-	private UserRepository	userRepository;
+	private UserRepository			userRepository;
+
+	@Autowired
+	private RendezvousRepository	rendezvousRepository;
 
 	//Supporting services --------------------------------
 
 	@Autowired
-	private ActorService	actorService;
+	private ActorService			actorService;
 
 
 	//Simple CRUD Methods --------------------------------
@@ -83,5 +87,24 @@ public class UserService {
 		Assert.isTrue(this.actorService.findByPrincipal().getId() == user.getId());
 
 		this.userRepository.delete(user);
+	}
+
+	public Collection<Announcement> announcementsByUser(final User user) {
+		final Collection<Announcement> announcements = new ArrayList<>();
+		for (final Rendezvous r : user.getAttendance())
+			announcements.addAll(r.getAnnouncements());
+		return announcements;
+	}
+
+	public Collection<Rendezvous> announcementsWithLinksAboveAverageRendezvous() {
+		return this.rendezvousRepository.announcementsWithAboveAverageRendezvous();
+	}
+
+	public Double[] avgStddevQuestionsPerRendezvous() {
+		return this.rendezvousRepository.avgStddevQuestionsPerRendezvous();
+	}
+
+	public Double[] avgStddevAnswersPerQuestiosnPerRendezvous() {
+		return this.rendezvousRepository.avgStddevAnswersPerQuestiosnPerRendezvous();
 	}
 }

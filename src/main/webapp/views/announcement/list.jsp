@@ -23,6 +23,8 @@
 <spring:message code="announcement.moment" var="msgMoment" />
 <spring:message code="announcement.delete" var="msgDelete" />
 <spring:message code="announcement.return" var="msgReturn" />
+<spring:message code="announcement.create" var="create" />
+<spring:message code="announcement.dateint" var="formatDate" />
 
 
 <display:table pagesize="5" class="displaytag" name="announcements" requestURI="announcement/rendezvous/list.do" id="row">
@@ -30,7 +32,7 @@
 	<%-- Attributes --%>
 
 	<display:column title="${msgMoment}" sortable="true">
-		<fmt:formatDate value="${row.moment}" type="BOTH"/>
+		<fmt:formatDate value="${row.moment}" pattern="${formatDate}/>
 	</display:column>
 
 	<display:column title="${msgTitle}" sortable="true">
@@ -50,5 +52,11 @@
 
 </display:table>
 <br />
+
+<security:authorize access="hasRole('USER')">
+<spring:url var="createUrl" value="announcement/user/create.do"/>
+	<a href="${createUrl}"><jstl:out value="${create}"/></a>
+	
+</security:authorize>
 
 <a href="announcement/list.do"><jstl:out value="${msgReturn}" /></a>

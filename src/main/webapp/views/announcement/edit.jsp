@@ -53,6 +53,13 @@
 		</form:label>
 		<form:textarea path="description" />
 		<br />
+		
+		<form:select path="rendezvous">
+				<form:option label="----" value="0" />
+				<form:options items="${rendezvouses}" itemLabel="name"/>
+			</form:select>
+			<form:errors cssClass="error" path="rendezvous" />
+
 		<br />
 
 

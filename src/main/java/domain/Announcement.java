@@ -19,13 +19,14 @@ public class Announcement extends DomainEntity {
 
 	//Attributes
 
-	private Date	moment;
-	private String	title;
-	private String	description;
+	private Date		moment;
+	private String		title;
+	private String		description;
 
 	//Relationships
 
-	private User	user;
+	private User		user;
+	private Rendezvous	rendezvous;
 
 
 	//Getters
@@ -54,6 +55,13 @@ public class Announcement extends DomainEntity {
 		return this.user;
 	}
 
+	@Valid
+	@NotNull
+	@ManyToOne(optional = false)
+	public Rendezvous getRendezvous() {
+		return this.rendezvous;
+	}
+
 	//Setters
 
 	public void setMoment(final Date moment) {
@@ -70,5 +78,9 @@ public class Announcement extends DomainEntity {
 
 	public void setUser(final User user) {
 		this.user = user;
+	}
+
+	public void setRendezvous(final Rendezvous rendezvous) {
+		this.rendezvous = rendezvous;
 	}
 }

@@ -29,6 +29,8 @@
 <spring:message code="user.phoneNumber" var="phoneNumber" />
 <spring:message code="user.emailAddress" var="emailAddress" />
 <spring:message code="user.answers" var="answers" />
+<spring:message code="user.rendezvouses" var="rendezvouses" />
+<spring:message code="user.display" var="msgDisplay" />
 <spring:message code="user.return" var="return" />
 
 
@@ -68,6 +70,18 @@
 	<display:column>
 	<a href="${answersUrl}"><jstl:out value="${answers}" /></a>
 	</display:column>
+	
+	<spring:url var="displayUrl"
+		value="user/display.do">
+		<spring:param name="varId"
+			value="${row.id}"/>
+	</spring:url>
+	
+	<display:column>
+	<a href="${displayUrl}"><jstl:out value="${msgDisplay}" /></a>
+	</display:column>
+	
+	
 	
 </display:table>
 <input type="button" name="return" value="${return}"

@@ -294,6 +294,7 @@
 		<property name="title" value="Notice" />
 		<property name="description" value="The rendezvous date might be delayed at a later time." />
 		<property name="user" ref="user1" />
+		<property name="rendezvous" ref="rendezvous1" />
 	</bean>
 	
 	<bean id="announcement2" class="domain.Announcement">
@@ -301,6 +302,7 @@
 		<property name="title" value="Urgent" />
 		<property name="description" value="Do not bring uninvited friends." />
 		<property name="user" ref="user3" />
+		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
 	<bean id="announcement3" class="domain.Announcement">
@@ -308,6 +310,7 @@
 		<property name="title" value="Second" />
 		<property name="description" value="The previous announcement is invalid." />
 		<property name="user" ref="user3" />
+		<property name="rendezvous" ref="rendezvous2" />
 	</bean>
 	
 	<!-- Comment beans -->

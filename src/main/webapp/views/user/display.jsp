@@ -28,6 +28,7 @@
 <spring:message code="user.phone"  var="msgPhone"/>
 <spring:message code="user.email"  var="msgEmail"/>
 <spring:message code="user.return"  var="msgReturn"/>
+<spring:message code="user.rendezvouses"  var="msgRendezvouses"/>
 
 	
 	<jstl:out value="${msgName}" />:
@@ -49,5 +50,13 @@
 	<jstl:out value="${msgEmail}" />:
 	<jstl:out value="${user.email}" />
 	<br />
+	
+	<spring:url var="rendezvousesUrl"
+		value="rendezvous/user/list.do">
+		<spring:param name="userId"
+			value="${user.id}"/>
+	</spring:url>
 
-<a href="rendezvous/list.do"><jstl:out value="${msgReturn}" /></a>
+	<a href="${rendezvousesUrl}"><jstl:out value="${msgRendezvouses}" /></a>
+	<br />
+	
