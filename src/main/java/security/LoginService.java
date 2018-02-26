@@ -73,5 +73,12 @@ public class LoginService implements UserDetailsService {
 
 		return result;
 	}
+	//	public Actor findActorByUsername(final String username) {
+	//		return this.userRepository.findActorByUsername(username);
+	//	}
+
+	public UserAccount findOne(final Integer id) {
+		return this.userRepository.findOne(id);
+	}
 
 }
