@@ -66,11 +66,30 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int varId) {
 		final ModelAndView result;
 		Rendezvous rendezvous;
-
 		rendezvous = this.rendezvousService.findOne(varId);
 		Assert.notNull(rendezvous);
-		result = this.createEditModelAndView(rendezvous);
 
+		if (rendezvous.getFinalMode() == true || rendezvous.getDeleted() == true)
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		else
+			result = this.createEditModelAndView(rendezvous);
+		return result;
+	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(@RequestParam final int varId) {
+		final ModelAndView result;
+		Rendezvous rendezvous;
+		rendezvous = this.rendezvousService.findOne(varId);
+		Assert.notNull(rendezvous);
+
+		if (rendezvous.getFinalMode() == true || rendezvous.getDeleted() == true)
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		else {
+			rendezvous.setDeleted(true);
+			this.rendezvousService.save(rendezvous);
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+		}
 		return result;
 	}
 
@@ -111,25 +130,8 @@ public class RendezvousUserController extends AbstractController {
 		Rendezvous rendezvous;
 
 		rendezvous = this.rendezvousService.findOne(varId);
-		Assert.notNull(rendezvous);
-		result = this.createCancelModelAndView(rendezvous);
-
-		return result;
-	}
-
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST, params = "cancel")
-	public ModelAndView saveCancel(@Valid final Rendezvous rendezvous, final BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors())
-			result = this.createCancelModelAndView(rendezvous);
-		else
-			try {
-				this.rendezvousService.cancel(rendezvous); // Need the method to remove a rendezvous of the attendance collection in the user (principal)
-				result = new ModelAndView("redirect:/rendezvous/user/list.do");
-			} catch (final Throwable oops) {
-				result = this.createCancelModelAndView(rendezvous, "rendezvous.cancel.error");
-			}
+		this.rendezvousService.deleteRendezvous(rendezvous);
+		result = new ModelAndView("redirect:/rendezvous/user/list.do");
 		return result;
 	}
 
@@ -166,24 +168,5 @@ public class RendezvousUserController extends AbstractController {
 
 		return result;
 
-	}
-
-	protected ModelAndView createCancelModelAndView(final Rendezvous rendezvous) {
-		ModelAndView result;
-
-		result = this.createCancelModelAndView(rendezvous, null);
-
-		return result;
-	}
-
-	protected ModelAndView createCancelModelAndView(final Rendezvous rendezvous, final String messageCode) {
-		ModelAndView result;
-
-		result = new ModelAndView("rendezvous/cancel");
-		result.addObject("rendezvous", rendezvous);
-		result.addObject("message", messageCode);
-		result.addObject("requestURI", "rendezvous/user/cancel.do");
-
-		return result;
 	}
 }

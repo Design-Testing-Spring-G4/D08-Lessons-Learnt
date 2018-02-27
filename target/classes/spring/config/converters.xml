@@ -37,9 +37,6 @@
 		<bean class="converters.CommentToStringConverter" />
 		<bean class="converters.StringToCommentConverter" />
 		
-		<bean class="converters.DomainEntityToStringConverter" />
-		<bean class="converters.StringToDomainEntityConverter" />
-		
 		<bean class="converters.QuestionToStringConverter" />
 		<bean class="converters.StringToQuestionConverter" />
 		
@@ -48,6 +45,9 @@
 		
 		<bean class="converters.UserToStringConverter" />
 		<bean class="converters.StringToUserConverter" />
+		
+		<bean class="converters.UserAccountToStringConverter" />
+		<bean class="converters.StringToUserAccountConverter" />
 		
 	</util:list>
 	

@@ -22,7 +22,7 @@
 
 <%-- Stored message variables --%>
 
-<spring:message code="rendezvous.display" var="msgDisplay" />
+<spring:message code="rendezvous.details" var="msgDisplay" />
 <spring:message code="rendezvous.name"  var="msgName" />
 <spring:message code="rendezvous.description"  var="msgDescription"/>
 <spring:message code="rendezvous.moment"  var="msgMoment"/>
@@ -31,16 +31,19 @@
 <spring:message code="rendezvous.finalMode" var="msgFinalMode" />
 <spring:message code="rendezvous.deleted" var="msgDeleted" />
 <spring:message code="rendezvous.adultOnly" var="msgAdultOnly" />
-<spring:message code="rendezvous.creator" var="msgcreator" />
+<spring:message code="rendezvous.creator" var="msgCreator" />
 <spring:message code="rendezvous.links" var="msgLinks" />
-<spring:message code="rendezvous.announcements" var="msgannouncements" />
+<spring:message code="rendezvous.announcements" var="msgAnnouncements" />
+<spring:message code="rendezvous.attendants" var="msgAttendants" />
 <spring:message code="rendezvous.comments" var="msgComments" />
 <spring:message code="rendezvous.questions" var="msgQuestions" />
+<spring:message code="rendezvous.related" var="msgRelated" />
 <spring:message code="rendezvous.return" var="msgReturn" />
+<spring:message code="rendezvous.dateint" var="formatDate" />
 
 	<%-- For the selected rendezvous in the list received as model, display the following information: --%>
 	
-	
+	<security:authorize access="permitAll()">
 	<jstl:out value="${msgName}" />:
 	<jstl:out value="${rendezvous.name}" />
 	<br />
@@ -51,7 +54,7 @@
 	<br />
 	
 	<jstl:out value="${msgMoment}" />:
-	<jstl:out value="${rendezvous.moment}" />
+	<fmt:formatDate value="${rendezvous.moment}" pattern="${formatDate}" />
 	<br />
 	
 	<jstl:out value="${msgPicture}" />:
@@ -59,37 +62,49 @@
 	<br />
 	
 	<jstl:out value="${msgCoordinates}" />:
-	<fmt:formatDate value="${rendezvous.coordinates}" />
+	<jstl:out value="${rendezvous.coordinates}" />
 	<br />
 	
 	<jstl:out value="${msgFinalMode}" />:
-	<fmt:formatDate value="${rendezvous.finalMode}" />
+	<jstl:out value="${rendezvous.finalMode}" />
 	<br />
 	
 	<jstl:out value="${msgDeleted}" />:
-	<fmt:formatDate value="${rendezvous.deleted}" />
+	<jstl:out value="${rendezvous.deleted}" />
 	<br />
 	
-	<jstl:out value="${msgAttendants}" />:
-	<jstl:forEach var="attendants" items="${rendezvous.attendants}">
-		<jstl:out value="${attendants.name}" />:<jstl:out value="${attendants.surname}" />,
-	</jstl:forEach>
+	<jstl:out value="${msgAdultOnly}" />:
+	<jstl:out value="${rendezvous.adultOnly}" />
 	<br />
 	
-	<jstl:out value="${msgLinks}" />:
-	<jstl:out value="${rendezvous.links}" />
-	<br />	
+	<spring:url var="displayUrl"
+		value="user/display.do">
+		<spring:param name="varId"
+			value="${rendezvous.creator.id}"/>
+	</spring:url>
 	
-	<jstl:out value="${msgAnnouncements}" />:
-	<jstl:out value="${rendezvous.announcements}" />
+	<jstl:out value="${msgCreator}" />:
+	<a href="${displayUrl}"><jstl:out value="${rendezvous.creator.name} ${rendezvous.creator.surname}" /></a>
 	<br />
 	
-	<jstl:out value="${msgComments}" />:
-	<jstl:out value="${rendezvous.comments}" />
+	<spring:url var="listUrl"
+		value="user/listAttendants.do">
+		<spring:param name="varId"
+			value="${rendezvous.id}"/>
+	</spring:url>
+
+	<a href="${listUrl}"><jstl:out value="${msgAttendants}" /></a>
+	<br />
+		
+	<spring:url var="relatedUrl"
+		value="rendezvous/listRelated.do">
+		<spring:param name="varId"
+			value="${rendezvous.id}"/>
+	</spring:url>
+
+	<a href="${relatedUrl}"><jstl:out value="${msgRelated}" /></a>
 	<br />
 	
-	<jstl:out value="${msgAnnouncements}" />:
-	<jstl:out value="${rendezvous.questions}" />
-	<br />
+	</security:authorize>
 
 <a href="rendezvous/list.do"><jstl:out value="${msgReturn}" /></a>

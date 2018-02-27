@@ -1,6 +1,8 @@
 
 package controllers.user;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CommentService;
+import services.RendezvousService;
 import controllers.AbstractController;
 import domain.Comment;
+import domain.Rendezvous;
+import domain.User;
 
 @Controller
 @RequestMapping("comment/user")
@@ -21,8 +28,39 @@ public class CommentUserController extends AbstractController {
 	//Services
 
 	@Autowired
-	private CommentService	commentService;
+	private CommentService		commentService;
 
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+	@Autowired
+	private ActorService		actorService;
+
+
+	//Listing
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int varId) {
+		final ModelAndView result;
+		Collection<Comment> comments;
+		Rendezvous r;
+		User user;
+
+		user = (User) this.actorService.findByPrincipal();
+		r = this.rendezvousService.findOne(varId);
+
+		if (!(r.getAttendants().contains(user)))
+			result = new ModelAndView("redirect:/rendezvous/user/list.do");
+
+		else {
+			comments = r.getComments();
+
+			result = new ModelAndView("comment/list");
+			result.addObject("comments", comments);
+			result.addObject("requestURI", "comment/user/list.do");
+		}
+		return result;
+	}
 
 	//Creation
 
@@ -48,7 +86,7 @@ public class CommentUserController extends AbstractController {
 		else
 			try {
 				this.commentService.save(comment);
-				result = new ModelAndView("redirect:/comment/user/list.do");
+				result = new ModelAndView("redirect:/rendezvous/list.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(comment, "comment.commit.error");
 			}

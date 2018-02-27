@@ -21,8 +21,8 @@
 
 <spring:message code="comment.create" var="create" />
 <spring:message code="comment.moment" var="moment" />
-<spring:message code="comment.title" var="title" />
-<spring:message code="comment.description" var="description" />
+<spring:message code="comment.text" var="text" />
+<spring:message code="comment.picture" var="picture" />
 <spring:message code="comment.save" var="save" />
 <spring:message code="comment.cancel" var="cancel" />
 
@@ -35,22 +35,21 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="moment" />
+	<form:hidden path="user" />
+	<form:hidden path="replies" />
 	
-
-		
-	
-	<form:label path="title">
-		<jstl:out value="${title}" />:
+	<form:label path="text">
+		<jstl:out value="${text}" />:
 	</form:label>
-			<form:input path="title" />
-			<form:errors cssClass="error" path="title" />
+			<form:input path="text" />
+			<form:errors cssClass="error" path="text" />
 	<br />
 	
-	<form:label path="description">
-		<jstl:out value="${description}" />:
+	<form:label path="picture">
+		<jstl:out value="${picture}" />:
 	</form:label>
-			<form:input path="description" />
-			<form:errors cssClass="error" path="description" />
+			<form:input path="picture"  placeholder="url"/>
+			<form:errors cssClass="error" path="picture" />
 	<br />
 	
 	

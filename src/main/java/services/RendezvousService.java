@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -70,13 +71,15 @@ public class RendezvousService {
 	public Rendezvous save(final Rendezvous r) {
 		Assert.notNull(r);
 		Assert.isTrue(this.actorService.findByPrincipal() == r.getCreator());
+		final User u = (User) this.actorService.findByPrincipal();
 		final Rendezvous saved = this.rendezvousRepository.save(r);
+		u.getAttendance().add(saved);
+		this.userService.save(u);
 		return saved;
 	}
 	public void delete(final Rendezvous r) {
 		Assert.notNull(r);
 		Assert.isTrue(r.getFinalMode() == false);
-		Assert.isTrue(this.actorService.findByPrincipal() == r.getCreator());
 		if (!(r.getAnnouncements()).isEmpty())
 			for (final Announcement a : r.getAnnouncements())
 				this.announcementRepository.delete(a);
@@ -114,7 +117,23 @@ public class RendezvousService {
 
 		user = ((User) this.actorService.findByPrincipal());
 		user.getAttendance().add(r);
+		r.getAttendants().add(user);
+		this.rendezvousRepository.save(r);
 		this.userService.save(user);
+	}
+
+	public void deleteRendezvous(final Rendezvous rendezvous) {
+		Assert.notNull(rendezvous);
+		User user;
+
+		user = ((User) this.actorService.findByPrincipal());
+		if (user.getAttendance().contains(rendezvous)) {
+			user.getAttendance().remove(rendezvous);
+			rendezvous.getAttendants().remove(user);
+			this.rendezvousRepository.save(rendezvous);
+			this.userService.save(user);
+		}
+
 	}
 
 	public Collection<Question> questionsByUser(final User user) {
@@ -133,7 +152,7 @@ public class RendezvousService {
 	}
 
 	public Collection<Rendezvous> topTenRendezvous() {
-		return this.rendezvousRepository.topTenRendezvous();
+		return this.rendezvousRepository.topTenRendezvous(new PageRequest(0, 10));
 	}
 
 	public Double[] avgStddevAnnouncementsPerRendezvous() {
@@ -143,5 +162,18 @@ public class RendezvousService {
 	public Collection<Rendezvous> announcementsWithAboveAverageRendezvous() {
 		return this.rendezvousRepository.announcementsWithAboveAverageRendezvous();
 	}
+	public Collection<Rendezvous> announcementsWithLinksAboveAverageRendezvous() {
+		return this.rendezvousRepository.announcementsWithLinksAboveAverageRendezvous();
+	}
+
+	public Double[] avgStddevQuestionsPerRendezvous() {
+		return this.rendezvousRepository.avgStddevQuestionsPerRendezvous();
+	}
+
+	/*
+	 * public Double[] avgStddevAnswersPerQuestiosnPerRendezvous() {
+	 * return this.rendezvousRepository.avgStddevAnswersPerQuestiosnPerRendezvous();
+	 * }
+	 */
 
 }

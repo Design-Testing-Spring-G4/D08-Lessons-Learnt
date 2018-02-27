@@ -52,8 +52,8 @@
 	<br />
 	
 	<spring:url var="rendezvousesUrl"
-		value="rendezvous/user/list.do">
-		<spring:param name="userId"
+		value="rendezvous/rendezvousUserList.do">
+		<spring:param name="varId"
 			value="${user.id}"/>
 	</spring:url>
 

@@ -58,8 +58,10 @@ public class CommentService {
 
 	public void delete(final Comment c) {
 		Assert.notNull(c);
-		Assert.isTrue(this.actorService.findByPrincipal().getId() == c.getUser().getId());
 		this.commentRepository.delete(c);
 
+	}
+	public Double[] avgStddevRepliesPerComment() {
+		return this.commentRepository.avgStddevRepliesPerComment();
 	}
 }

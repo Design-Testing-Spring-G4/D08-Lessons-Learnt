@@ -1,6 +1,8 @@
 
 package controllers.administrator;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.CommentService;
+import services.RendezvousService;
 import controllers.AbstractController;
 import domain.Comment;
+import domain.Rendezvous;
 
 @Controller
 @RequestMapping("comment/administrator")
@@ -20,7 +24,10 @@ public class CommentAdministratorController extends AbstractController {
 	//Services
 
 	@Autowired
-	private CommentService	commentService;
+	private CommentService		commentService;
+
+	@Autowired
+	private RendezvousService	rendezvousService;
 
 
 	//Creation
@@ -38,6 +45,24 @@ public class CommentAdministratorController extends AbstractController {
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(c, "comment.commit.error");
 		}
+		return result;
+	}
+
+	//Listing 
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int varId) {
+		final ModelAndView result;
+		Collection<Comment> comments;
+		Rendezvous r;
+
+		r = this.rendezvousService.findOne(varId);
+		comments = r.getComments();
+
+		result = new ModelAndView("comment/list");
+		result.addObject("comments", comments);
+		result.addObject("requestURI", "comment/administrator/list.do");
+
 		return result;
 	}
 	//Ancillary methods

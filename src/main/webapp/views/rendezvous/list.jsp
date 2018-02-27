@@ -25,18 +25,25 @@
 
 <spring:message code="rendezvous.list" var="list" />
 <spring:message code="rendezvous.name" var="name" />
-<spring:message code="rendezvous.surname" var="surname" />
+<spring:message code="rendezvous.description" var="description" />
 <spring:message code="rendezvous.moment" var="moment" />
-<spring:message code="rendezvous.postalAddress" var="postalAddress" />
-<spring:message code="rendezvous.phoneNumber" var="phoneNumber" />
-<spring:message code="rendezvous.emailAddress" var="emailAddress" />
+<spring:message code="rendezvous.address" var="postalAddress" />
+<spring:message code="rendezvous.phone" var="phoneNumber" />
+<spring:message code="rendezvous.email" var="emailAddress" />
+<spring:message code="rendezvous.details" var="details" />
+<spring:message code="rendezvous.edit" var="msgEdit" />
 <spring:message code="rendezvous.announcements" var="announcements" />
 <spring:message code="rendezvous.similar" var="similarRendezvouses" />
-<spring:message code="rendezvous.createAnnouncement"
-	var="createAnnouncement" />
+<spring:message code="rendezvous.createAnnouncement" var="createAnnouncement" />
+<spring:message code="rendezvous.create" var="createRendezvous" />
 <spring:message code="rendezvous.questions" var="questions" />
+<spring:message code="rendezvous.comments" var="comments" />
 <spring:message code="rendezvous.users" var="users" />
-<spring:message code="rendezvous.return" var="return" />
+<spring:message code="rendezvous.return" var="msgReturn" />
+<spring:message code="rendezvous.RSVP" var="msgRSVP" />
+<spring:message code="rendezvous.delete" var="msgDelete" />
+<spring:message code="rendezvous.cancel" var="msgCancel" />
+<spring:message code="rendezvous.deleted" var="deleted" />
 <spring:message code="rendezvous.dateint" var="formatDate" />
 
 
@@ -49,12 +56,14 @@
 
 	<display:column property="name" title="${name}" sortable="true" />
 
-	<display:column property="description" title="${surname}"
+	<display:column property="description" title="${description}"
 		sortable="true" />
 
 	<display:column title="${moment}" sortable="true">
 		<fmt:formatDate value="${row.moment}" pattern="${formatDate}" />
 	</display:column>
+
+	<display:column property="deleted" title="${deleted}" sortable="true" />
 
 	<spring:url var="displayUrl" value="rendezvous/display.do">
 		<spring:param name="varId" value="${row.id}" />
@@ -72,44 +81,50 @@
 		<a href="${userUrl}"><jstl:out value="${users}" /></a>
 	</display:column>
 
-	<spring:url var="announcementsUrl" value="announcement/list.do">
-		<spring:param name="varId" value="${row.id}" />
-	</spring:url>
-
-	<display:column>
-		<a href="${announcementsUrl}"><jstl:out value="${announcements}" /></a>
-	</display:column>
-
-	<spring:url var="usersUrl" value="user/list.do">
-		<spring:param name="varId" value="${row.id}" />
-	</spring:url>
-
-	<display:column>
-		<a href="${usersUrl}"><jstl:out value="${users}" /></a>
-	</display:column>
-
 	<security:authorize access="hasRole('USER')">
 
-		<spring:url var="createAnnouncementUrl"
-			value="announcement/user/create.do">
+		
+		<spring:url var="editUrl"
+			value="rendezvous/user/edit.do">
 			<spring:param name="varId" value="${row.id}" />
 		</spring:url>
 
 		<display:column>
-			<a href="${createAnnouncementUrl}"><jstl:out
-					value="${createAnnouncement}" /></a>
+			<a href="${editUrl}"><jstl:out
+					value="${msgEdit}" /></a>
 		</display:column>
-
-		<spring:url var="questionsUrl" value="question/list.do">
+		
+		<spring:url var="rsvpUrl"
+			value="rendezvous/user/rsvp.do">
 			<spring:param name="varId" value="${row.id}" />
 		</spring:url>
 
 		<display:column>
-			<a href="${questionsUrl}"><jstl:out value="${questions}" /></a>
+			<a href="${rsvpUrl}"><jstl:out
+					value="${msgRSVP}" /></a>
+		</display:column>
+		
+		
+		<spring:url var="cancelUrl"
+			value="rendezvous/user/cancel.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+
+		<display:column>
+			<a href="${cancelUrl}"><jstl:out
+					value="${msgCancel}" /></a>
 		</display:column>
 
+	<spring:url var="commentsUrl" value="comment/user/list.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
 
-		<spring:url var="similarRendezvousesUrl" value="rendezvous/list.do">
+		<display:column>
+			<a href="${commentsUrl}"><jstl:out value="${comments}" /></a>
+		</display:column>
+
+		<spring:url var="similarRendezvousesUrl"
+			value="rendezvous/listRelated.do">
 			<spring:param name="varId" value="${row.id}" />
 		</spring:url>
 
@@ -118,9 +133,45 @@
 					value="${similarRendezvouses}" /></a>
 		</display:column>
 
+	<spring:url var="deleteUrl"
+			value="rendezvous/user/delete.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+
+		<display:column>
+			<a href="${deleteUrl}"><jstl:out
+					value="${msgDelete}" /></a>
+		</display:column>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('ADMIN')">
+	<spring:url var="removeUrl"
+			value="rendezvous/administrator/delete.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+
+		<display:column>
+			<a href="${removeUrl}"><jstl:out
+					value="${msgDelete}" /></a>
+		</display:column>
+
+		<spring:url var="commentsUrl" value="comment/administrator/list.do">
+			<spring:param name="varId" value="${row.id}" />
+		</spring:url>
+
+		<display:column>
+			<a href="${commentsUrl}"><jstl:out value="${comments}" /></a>
+		</display:column>
+		
 	</security:authorize>
 
+
 </display:table>
-<input type="button" name="return" value="${return}"
+
+<spring:url var="createRendezvousUrl" value="rendezvous/user/create.do"/>
+<a href="${createRendezvousUrl}"><jstl:out
+		value="${createRendezvous}" /></a>
+		<br/>
+<input type="button" name="return" value="${msgReturn}"
 	onclick="javascript: relativeRedir('welcome/index.do');" />
 

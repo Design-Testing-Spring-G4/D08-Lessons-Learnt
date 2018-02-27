@@ -51,9 +51,7 @@
 	<form:hidden path="comments" />
 	<form:hidden path="questions" />
 	<form:hidden path="deleted" />
-	
-	
-	
+	<form:hidden path="links" />
 	
 	<form:label path="name">
 		<jstl:out value="${name}" />:
@@ -65,7 +63,7 @@
 	<form:label path="description">
 		<jstl:out value="${description}" />:
 	</form:label>
-			<form:password path="description" />
+			<form:input path="description" />
 			<form:errors cssClass="error" path="description" />
 	<br />
 		
@@ -73,15 +71,22 @@
 	<form:label path="moment">
 		<jstl:out value="${moment}" />:
 	</form:label>
-			<form:input path="moment" />
+			<form:input path="moment" placeholder="dd/MM/yy HH:mm"/>
 			<form:errors cssClass="error" path="moment" />
 	<br />
 	
 	<form:label path="coordinates">
 		<jstl:out value="${coordinates}" />:
 	</form:label>
-			<form:input path="coordinates" />
+			<form:input path="coordinates" placeholder="+90, -180"/>
 			<form:errors cssClass="error" path="coordinates" />
+	<br />
+	
+	<form:label path="picture">
+		<jstl:out value="${picture}" />:
+	</form:label>
+			<form:input path="picture" placeholder="url"/>
+			<form:errors cssClass="error" path="picture" />
 	<br />
 	
 	<form:label path="finalMode">
@@ -95,7 +100,7 @@
 					label="YES"
 					value="true" />
 			</form:select>
-	<br/><br/>
+	<br/>
 	
 	<form:label path="adultOnly">
 		<jstl:out value="${adultOnly}" />:
@@ -109,15 +114,6 @@
 					value="true" />
 			</form:select>
 	<br/><br/>
-	
-	<form:select path="links">
-				<form:option label="----" value="0" />
-				<form:options items="${rendezvouses}" itemLabel="name"/>
-			</form:select>
-			<form:errors cssClass="error" path="links" />
-	<br />
-	
-	
 	
 	<%-- Buttons --%>
 	<input type="submit" name="save" value="${save}" />&nbsp; 

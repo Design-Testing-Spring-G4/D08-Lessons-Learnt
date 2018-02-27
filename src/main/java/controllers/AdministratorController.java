@@ -10,9 +10,20 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import services.CommentService;
+import services.RendezvousService;
+import services.UserService;
+import domain.Rendezvous;
 
 @Controller
 @RequestMapping("/administrator")
@@ -24,26 +35,52 @@ public class AdministratorController extends AbstractController {
 		super();
 	}
 
-	// Action-1 ---------------------------------------------------------------		
 
-	@RequestMapping("/action-1")
-	public ModelAndView action1() {
+	@Autowired
+	private UserService			userService;
+
+	@Autowired
+	private RendezvousService	rendezvousService;
+
+	@Autowired
+	private CommentService		commentService;
+
+
+	//Dashboard
+
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public ModelAndView dashboard() {
 		ModelAndView result;
+		final Collection<String> topTenRendezvous = new ArrayList<String>();
+		final Collection<String> announcementsWithAboveAverageRendezvous = new ArrayList<String>();
+		final Collection<String> announcementsWithLinksAboveAverageRendezvous = new ArrayList<String>();
 
-		result = new ModelAndView("administrator/action-1");
+		//Parse the collection to display the trips' names.
+		for (final Rendezvous r : this.rendezvousService.topTenRendezvous())
+			topTenRendezvous.add(r.getName());
+
+		for (final Rendezvous r : this.rendezvousService.announcementsWithAboveAverageRendezvous())
+			announcementsWithAboveAverageRendezvous.add(r.getName());
+
+		for (final Rendezvous r : this.rendezvousService.announcementsWithLinksAboveAverageRendezvous())
+			announcementsWithLinksAboveAverageRendezvous.add(r.getName());
+
+		result = new ModelAndView("administrator/dashboard");
+
+		result.addObject("avgStddevRendezvousPerUser", Arrays.toString(this.userService.avgStddevRendezvousPerUser()));
+		result.addObject("ratioRendezvousVsNotRendezvous", Arrays.toString(this.userService.ratioRendezvousVsNotRendezvous()));
+		result.addObject("avgStddevUserPerRendezvous", Arrays.toString(this.rendezvousService.avgStddevUserPerRendezvous()));
+		result.addObject("avgStddevAttendancePerUser", Arrays.toString(this.userService.avgStddevAttendancePerUser()));
+		result.addObject("topTenRendezvous", topTenRendezvous);
+		result.addObject("avgStddevAnnouncementsPerRendezvous", Arrays.toString(this.rendezvousService.avgStddevAnnouncementsPerRendezvous()));
+		result.addObject("announcementsWithAboveAverageRendezvous", announcementsWithAboveAverageRendezvous);
+		result.addObject("announcementsWithLinksAboveAverageRendezvous", announcementsWithLinksAboveAverageRendezvous);
+		result.addObject("avgStddevQuestionsPerRendezvous", Arrays.toString(this.rendezvousService.avgStddevQuestionsPerRendezvous()));
+		//result.addObject("avgStddevAnswersPerQuestiosnPerRendezvous", Arrays.toString(this.rendezvousService.avgStddevAnswersPerQuestiosnPerRendezvous()));
+		result.addObject("avgStddevRepliesPerComment", Arrays.toString(this.commentService.avgStddevRepliesPerComment()));
+
+		result.addObject("requestURI", "administrator/dashboard.do");
 
 		return result;
 	}
-
-	// Action-2 ---------------------------------------------------------------
-
-	@RequestMapping("/action-2")
-	public ModelAndView action2() {
-		ModelAndView result;
-
-		result = new ModelAndView("administrator/action-2");
-
-		return result;
-	}
-
 }

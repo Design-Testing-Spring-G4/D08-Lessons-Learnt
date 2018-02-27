@@ -25,13 +25,13 @@
 <spring:message code="user.list" var="list" />
 <spring:message code="user.name" var="name" />
 <spring:message code="user.surname" var="surname" />
-<spring:message code="user.postalAddress" var="postalAddress" />
-<spring:message code="user.phoneNumber" var="phoneNumber" />
-<spring:message code="user.emailAddress" var="emailAddress" />
+<spring:message code="user.address" var="postalAddress" />
+<spring:message code="user.phone" var="phoneNumber" />
+<spring:message code="user.email" var="emailAddress" />
 <spring:message code="user.answers" var="answers" />
 <spring:message code="user.rendezvouses" var="rendezvouses" />
 <spring:message code="user.display" var="msgDisplay" />
-<spring:message code="user.return" var="return" />
+<spring:message code="user.return" var="msgReturn" />
 
 
 <%-- Listing grid --%>
@@ -45,14 +45,14 @@
 	
 	<display:column property="surname" title="${surname}" sortable="true" />
 
-	<display:column property="postalAddress" title="${postalAddress}" sortable="true" />
+	<display:column property="address" title="${postalAddress}" sortable="true" />
 	
-	<display:column property="phoneNumber" title="${phoneNumber}" sortable="true" />
+	<display:column property="phone" title="${phoneNumber}" sortable="true" />
 	
-	<display:column property="emailAddress" title="${emailAddress}" sortable="true" />
+	<display:column property="email" title="${emailAddress}" sortable="true" />
 	
 	<spring:url var="rendezvousUrl"
-		value="rendezvous/list.do">
+		value="rendezvous/rendezvousUserList.do">
 		<spring:param name="varId"
 			value="${row.id}"/>
 	</spring:url>
@@ -60,16 +60,7 @@
 	<display:column>
 	<a href="${rendezvousUrl}"><jstl:out value="${rendezvouses}" /></a>
 	</display:column>
-	
-	<spring:url var="answersUrl"
-		value="answer/user/list.do">
-		<spring:param name="varId"
-			value="${row.id}"/>
-	</spring:url>
-	
-	<display:column>
-	<a href="${answersUrl}"><jstl:out value="${answers}" /></a>
-	</display:column>
+
 	
 	<spring:url var="displayUrl"
 		value="user/display.do">
@@ -84,6 +75,6 @@
 	
 	
 </display:table>
-<input type="button" name="return" value="${return}"
+<input type="button" name="return" value="${msgReturn}"
 		onclick="javascript: relativeRedir('welcome/index.do');" />
 		

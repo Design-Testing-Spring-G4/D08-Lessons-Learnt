@@ -19,7 +19,6 @@
 
 <%-- Stored message variables --%>
 
-<spring:message code="user.create" var="create" />
 <spring:message code="user.userAccount.username" var="username" />
 <spring:message code="user.userAccount.password" var="password" />
 <spring:message code="user.name" var="name" />
@@ -38,7 +37,15 @@
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="userAccount" />
 	<form:hidden path="userAccount.authorities" />
+	<form:hidden path="rendezvous" />
+	<form:hidden path="attendance" />
+	<form:hidden path="announcements" />
+	<form:hidden path="comments" />
+	<form:hidden path="answers" />
+	
+	
 	
 	<form:label path="userAccount.username">
 		<jstl:out value="${username}" />:
@@ -91,7 +98,7 @@
 	
 	
 	<%-- Buttons --%>
-	<input type="submit" name="save" value="${save}" />; 
+	<input type="submit" name="save" value="${save}" /> 
 	
 	<input type="button" name="cancel" value="${cancel}"
 		onclick="javascript: relativeRedir('welcome/index.do');" />

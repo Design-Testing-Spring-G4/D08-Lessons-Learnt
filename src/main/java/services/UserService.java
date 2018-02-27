@@ -96,15 +96,16 @@ public class UserService {
 		return announcements;
 	}
 
-	public Collection<Rendezvous> announcementsWithLinksAboveAverageRendezvous() {
-		return this.rendezvousRepository.announcementsWithAboveAverageRendezvous();
+	public Double[] avgStddevRendezvousPerUser() {
+		return this.userRepository.avgStddevRendezvousPerUser();
 	}
 
-	public Double[] avgStddevQuestionsPerRendezvous() {
-		return this.rendezvousRepository.avgStddevQuestionsPerRendezvous();
+	public Double[] ratioRendezvousVsNotRendezvous() {
+		return this.userRepository.ratioRendezvousVsNotRendezvous();
 	}
 
-	public Double[] avgStddevAnswersPerQuestiosnPerRendezvous() {
-		return this.rendezvousRepository.avgStddevAnswersPerQuestiosnPerRendezvous();
+	public Double[] avgStddevAttendancePerUser() {
+		return this.userRepository.avgStddevAttendancePerUser();
 	}
+
 }

@@ -32,7 +32,7 @@
 	<%-- Attributes --%>
 
 	<display:column title="${msgMoment}" sortable="true">
-		<fmt:formatDate value="${row.moment}" pattern="${formatDate}/>
+		<fmt:formatDate value="${row.moment}" pattern="${formatDate}"/>
 	</display:column>
 
 	<display:column title="${msgTitle}" sortable="true">
